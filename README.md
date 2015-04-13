@@ -1,6 +1,3 @@
-# Benchmark
-A simple C++ program that performs a disk benchmark.
-
 ## Introduction to Benchmark
 Benchmark is a simple C++ program that performs a disk benchmark.
 
@@ -8,6 +5,22 @@ Benchmark is a simple C++ program that performs a disk benchmark.
 We don't know what hard drives to buy! - We have a series of hard drives that we are considering
 for installation into our file servers. Write a simple pogram in C++ that performs a simple
 disk benchmark.
+
+## Requirements
+This program was written and tested on MacOS 10.9.5, and further tested on various Scientific
+Linux 6 workstations.
+- g++/gcc 4.4.7 or newer
+
+## Instructions
+Use g++ to build the file:
+```
+g++ -std=c++0x -lrt benchmark.cpp -o benchmark
+```
+
+Run the application:
+```
+./benchmark
+```
 
 ## Snapshots
 Below is a screenshot of csa2.bu.edu, Boston University's Computer Science's main Linux computer, running 100 files of 1MB in size.
@@ -24,6 +37,7 @@ Other screenshots below include running on Dell Precision T1600 workstations:
 ## Improvements
 The following improvements can be made on this program:
 - Allow variable amount of files to input.
+- Allow for timing of Wall time (the time the program takes to execute, as viewable from an outside source).
 
 ## License
 A copy of the Benchmark's license can be found [here](https://github.com/Unknowncmbk/Benchmark/blob/master/LICENSE).
