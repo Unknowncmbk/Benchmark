@@ -7,11 +7,31 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <time.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <algorithm>
+
+#include <sys/resource.h>
+#include <sys/types.h>
 
 using namespace std;
+
+/**
+ * Compute the CPU time between two timespecs.
+ *
+ * @param start - the starting timespec
+ * @param end - the ending timespec
+ *
+ * @return The amount of time, in nanoseconds, between the two timespecs.
+ */
+double compute_cpu_time(struct timespec start, struct timespec end){
+	double nano = static_cast<double> (end.tv_nsec - start.tv_nsec);
+	double sec = static_cast<double>((end.tv_sec - start.tv_sec) * 1E9);
+
+	return sec + nano;
+}
 
 /**
  * Writes to a file named filename.
@@ -19,15 +39,15 @@ using namespace std;
  * @param filename - name of the file
  * @param size - size of the file to write in bytes
  *
- * @return The amount of time, in seconds, the time it took to execute the
+ * @return The amount of time, in seconds, it took to execute the
  *     write. This is based off of CPU clock calculations.
  */
-float write_file(string filename, int size){
+double write_file(string filename, int size){
 
-	float time = 0;
+	double time = 0;
 
 	// construct new file
-	ofstream file(filename);
+	ofstream file(filename.c_str());
 
 	if (file.is_open()){
 
@@ -44,12 +64,15 @@ float write_file(string filename, int size){
 		}
 
 		// time only the writing of the text to the file
-		clock_t start = clock();
+		struct timespec start, end;
+		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
+
 		file << text;
-		clock_t end = clock();
+
+		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end);
 
 		// calculate time spent writing
-		time = (float)(end - start) / CLOCKS_PER_SEC;
+		time = compute_cpu_time(start, end);
 
 		file.close();
 	}
@@ -63,27 +86,29 @@ float write_file(string filename, int size){
  *
  * @param filename - name of the file
  *
- * @return The amount of time, in seconds, the time it took to execute the
+ * @return The amount of time, in seconds, it took to execute the
  *     read. This is based off of CPU clock calculations.
  */
-float read_file(string filename){
+double read_file(string filename){
 
-	float time = 0;
+	double time = 0;
 
-	ifstream file(filename);
+	ifstream file(filename.c_str());
 	string text;
 
 	if (file.is_open()){
 
 		// time only the reading of the file
-		clock_t start = clock();
+		struct timespec start, end;
+		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
+
 		while (getline(file, text)){
 			// do nothing, as we don't actually want to store it anywhere
 		}
-		clock_t end = clock();
 
-		// calculate time spent reading
-		time = (float)(end - start) / CLOCKS_PER_SEC;
+		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end);
+
+		time = compute_cpu_time(start, end);
 
 		file.close();
 	}
@@ -103,9 +128,11 @@ int main() {
 	cout << endl << "Running Benchmark program" << endl;
 	cout << "100 total files of " << file_size << " bytes..." << endl << endl;
 
-	// we want 100 files
+	int num_files = 100;
+
+	// we want 100 files, cannot instantiate variable amount
 	int file [100] = {};
-	for (int i = 0; i < 100; i++){
+	for (int i = 0; i < num_files; i++){
 		file[i] = i;
 	}
 
@@ -113,30 +140,41 @@ int main() {
 	mkdir("./output/", 0777);
 
 	// shuffle for random reads
-	random_shuffle(&file[0], &file[100]);
+	random_shuffle(&file[0], &file[num_files]);
 
-	// write 100 files
-	float total_write_time = 0;
-	for (int w = 0; w < 100; w++){
-		string name = "./output/test-" + to_string(w) + ".txt";
+	// write num_files files
+	double total_write_time = 0;
+	for (int w = 0; w < num_files; w++){
+		string name = "./output/test-" + to_string(static_cast<long long>(w)) + ".txt";
 		total_write_time += write_file(name, file_size);
 	}
 
-	// read 100 files randomly
-	float total_read_time = 0;
-	for (int r = 0; r < 100; r++){
-		string name = "./output/test-" + to_string(file[r]) + ".txt";
+	// read num_files randomly
+	double total_read_time = 0;
+	for (int r = 0; r < num_files; r++){
+		string name = "./output/test-" + to_string(static_cast<long long>(file[r])) + ".txt";
 		total_read_time += read_file(name);
 	}
 
-	cout << "Total write time: " << total_write_time << " secs." << endl;
-	cout << "Total read time: " << total_read_time << " secs." << endl << endl;
+	double write_avg = total_write_time / num_files / 1E9;
+	double read_avg = total_read_time / num_files / 1E9;
+
+	double write_rate = (file_size / write_avg / 1000000);
+	double read_rate = (file_size / read_avg / 1000000);
+
+	cout << "Total write time: " << total_write_time / 1E9 << " secs." << endl;
+	cout << "Total read time: " << total_read_time / 1E9 << " secs." << endl << endl;
 
 	cout << "Average write time for a " << file_size << "-byte file is ";
-	cout << total_write_time / 100 << " secs." << endl;
+	cout << write_avg << " secs." << endl;
 
 	cout << "Average read time for a " << file_size << "-byte file is ";
-	cout << total_read_time / 100 << " secs." << endl << endl;
+	cout << read_avg << " secs." << endl << endl;
+
+	cout << "Writing rate is " << write_rate << " mbps." << endl;
+	cout << "Reading rate is " << read_rate << " mbps." << endl;
+
+	cout << "Note: This is CPU clock time, not wall time." << endl;
 
 	return 0;
 }
