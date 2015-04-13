@@ -31,8 +31,8 @@ Below is a screenshot of csa3.bu.edu, Boston University's Computer Science's sec
 - ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/csa3.bu.edu-linux-1000.png "csa3.bu.edu 1000x1MB")
 
 Other screenshots below include running on Dell Precision T1600 workstations:
-- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/duey-linux.png "duey-linux 100x1MB")
-- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/huey-linux.png "huey-linux 100x1MB")
+- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/animal-linux.png "animal-linux 100x1MB")
+- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/beaker-linux.png "beaker-linux 100x1MB")
 
 ## Improvements
 The following improvements can be made on this program:
