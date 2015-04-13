@@ -3,6 +3,9 @@
 // Author      : Stephen Bahr (sbahr@bu.edu)
 // Version     : 1.0
 // Description : A simple C++ program that performs a disk benchmark.
+// Sources: 
+//     Library references: http://www.cplusplus.com/reference/
+//     Benchmarking CPU: http://stackoverflow.com/questions/275004/c-timer-function-to-provide-time-in-nano-seconds
 //============================================================================
 
 #include <iostream>
