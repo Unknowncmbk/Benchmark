@@ -172,9 +172,9 @@ int main() {
 	cout << read_avg << " secs." << endl << endl;
 
 	cout << "Writing rate is " << write_rate << " mbps." << endl;
-	cout << "Reading rate is " << read_rate << " mbps." << endl;
+	cout << "Reading rate is " << read_rate << " mbps." << endl << endl;
 
-	cout << "Note: This is CPU clock time, not wall time." << endl;
+	cout << "Note: This is CPU clock time, not Wall time." << endl;
 
 	return 0;
 }
