@@ -33,6 +33,8 @@ float write_file(string filename, int size){
 
 		string text;
 		for (int i = 0; i < size; i++){
+
+			// every 1024 bytes, new line
 			if (i % 1024 == 0){
 				text += "\n";
 			}
@@ -41,13 +43,15 @@ float write_file(string filename, int size){
 			}
 		}
 
+		// time only the writing of the text to the file
 		clock_t start = clock();
 		file << text;
 		clock_t end = clock();
 
-		file.close();
-
+		// calculate time spent writing
 		time = (float)(end - start) / CLOCKS_PER_SEC;
+
+		file.close();
 	}
 	else cout << "Unable to open " << filename << " for writing purposes." << endl;
 
@@ -71,15 +75,17 @@ float read_file(string filename){
 
 	if (file.is_open()){
 
+		// time only the reading of the file
 		clock_t start = clock();
 		while (getline(file, text)){
-			//cout << text << endl;
+			// do nothing, as we don't actually want to store it anywhere
 		}
 		clock_t end = clock();
 
-		file.close();
-
+		// calculate time spent reading
 		time = (float)(end - start) / CLOCKS_PER_SEC;
+
+		file.close();
 	}
 	else cout << "Unable to read " << filename << endl;
 
@@ -88,7 +94,7 @@ float read_file(string filename){
 
 int main() {
 
-	cout << "Welcome to a simple Benchmark program written in C++." << endl;
+	cout << "Welcome to a simple benchmark program written in C++." << endl;
 
 	int file_size;
 	cout << "Enter the size of the file to read/write: " << endl;
