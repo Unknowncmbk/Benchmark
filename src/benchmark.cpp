@@ -6,6 +6,7 @@
 // Sources: 
 //     Library references: http://www.cplusplus.com/reference/
 //     Benchmarking CPU: http://stackoverflow.com/questions/275004/c-timer-function-to-provide-time-in-nano-seconds
+//     Writing directly to disk: http://stackoverflow.com/questions/16605233/how-to-disable-buffering-on-a-stream
 //============================================================================
 
 #include <iostream>
@@ -30,7 +31,7 @@ using namespace std;
  * @return The amount of time, in nanoseconds, between the two timespecs.
  */
 double compute_cpu_time(struct timespec start, struct timespec end){
-	double nano = static_cast<double> (end.tv_nsec - start.tv_nsec);
+	double nano = static_cast<double>(end.tv_nsec - start.tv_nsec);
 	double sec = static_cast<double>((end.tv_sec - start.tv_sec) * 1E9);
 
 	return sec + nano;
@@ -49,28 +50,29 @@ double write_file(string filename, int size){
 
 	double time = 0;
 
-	// construct new file
-	ofstream file(filename.c_str());
+	// mark file to be written to disk directly
+	ofstream file;
+	file.rdbuf()->pubsetbuf(0, 0);
+	file.open(filename.c_str());
 
 	if (file.is_open()){
 
+		struct timespec start, end;
+		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
 		string text;
 		for (int i = 0; i < size; i++){
 
-			// every 1024 bytes, new line
 			if (i % 1024 == 0){
 				text += "\n";
+
+				// write text to disk
+				file << text;
+				text = "";
 			}
 			else{
 				text += "a";
 			}
 		}
-
-		// time only the writing of the text to the file
-		struct timespec start, end;
-		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
-
-		file << text;
 
 		clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end);
 
@@ -96,7 +98,10 @@ double read_file(string filename){
 
 	double time = 0;
 
-	ifstream file(filename.c_str());
+	// mark file to be read from disk directly
+	ifstream file;
+	file.rdbuf()->pubsetbuf(0, 0);
+	file.open(filename.c_str());
 	string text;
 
 	if (file.is_open()){
@@ -129,12 +134,12 @@ int main() {
 	cin >> file_size;
 
 	cout << endl << "Running Benchmark program" << endl;
-	cout << "100 total files of " << file_size << " bytes..." << endl << endl;
+	cout << "1000 total files of " << file_size << " bytes..." << endl << endl;
 
-	int num_files = 100;
+	int num_files = 1000;
 
 	// we want 100 files, cannot instantiate variable amount
-	int file [100] = {};
+	int file [1000] = {};
 	for (int i = 0; i < num_files; i++){
 		file[i] = i;
 	}
