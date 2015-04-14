@@ -38,6 +38,7 @@ Other screenshots below include running on Dell Precision T1600 workstations:
 The following improvements can be made on this program:
 - Allow variable amount of files to input.
 - Allow for timing of Wall time (the time the program takes to execute, as viewable from an outside source).
+- Allow for variable amount of block size, default is 1024-byte blocks being written/read at a time.
 
 ## License
 A copy of the Benchmark's license can be found [here](https://github.com/Unknowncmbk/Benchmark/blob/master/LICENSE).
