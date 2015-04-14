@@ -1,0 +1,42 @@
+Project Title: Benchmark
+Author: Stephen Bahr (sbahr@bu.edu)
+Files: benchmark.cpp
+
+Project overview:
+We don't know what hard drives to buy! - We have a series of hard drives that we are considering for 
+installation into our file servers. Write a simple pogram in C++ that performs a simple disk benchmark.
+
+References:
+- Library references: http://www.cplusplus.com/reference/
+- Benchmarking CPU: http://stackoverflow.com/questions/275004/c-timer-function-to-provide-time-in-nano-seconds
+- Writing directly to disk: http://stackoverflow.com/questions/16605233/how-to-disable-buffering-on-a-stream
+
+Issues ran into:
+- Initial tests were reading at an abnormally high rate (> 2000mbps). Files were getting read directly
+from memory, not from disk. Changing the stream flag allowed to get correct results.
+
+Design Decisions/Notes:
+- We decided that we should fetch a block from the disk at a time. System defaults are usually 1,024 bytes.
+Similarly, we write to a disk a block at a time.
+- compute_cpu_time is in nanoseconds, as other standard C++ library functions only calculated microseconds,
+and we needed more precision to get more accurate results.
+- Writing 100 files first, and reading randomly in order to get some disk (seek) latency.
+
+Program Errors:
+- The error is in the project overview. If this script is called when the disk_usage is at 99%,
+and we try to remove all log files, this script can bring the disk_usage down to something still above
+the threshold. All log files can be deleted as a result, which is extremely bad.
+- If a program uses one massive log file, deleting it could be extremely bad.
+- We only measure CPU time, and not Wall time, as we are interested only in disk performance.
+
+Improvements:
+- Allow variable amount of files to input.
+- Allow for timing of Wall time (the time the program takes to execute, as viewable from an outside source).
+- Allow for variable amount of block size, default is 1024-byte blocks being written/read at a time.
+
+Time spent:
+Total: ~6 hours
+Planning: ~15 mins
+Learning C++ Syntax: ~1 hour
+Testing: ~2 hours
+Documentation: ~1 hour
