@@ -24,7 +24,7 @@ Run the application:
 
 ## Snapshots
 Below is a screenshot of csa2.bu.edu, Boston University's Computer Science's main Linux computer, running 100 files of 1MB in size.
-- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/sample-output/master/csa2.bu.edu-linux.png "csa2.bu.edu 100x1MB")
+- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/sample-output/csa2.bu.edu-linux.png "csa2.bu.edu 100x1MB")
 
 Below is a screenshot of csa3.bu.edu, Boston University's Computer Science's secondary Linux computer, running 100 files of 1MB in size, and then 1000 files of 1MB.
 - ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/sample-output/csa3.bu.edu-linux.png "csa3.bu.edu 100x1MB")
