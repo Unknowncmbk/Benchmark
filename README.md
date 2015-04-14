@@ -24,15 +24,15 @@ Run the application:
 
 ## Snapshots
 Below is a screenshot of csa2.bu.edu, Boston University's Computer Science's main Linux computer, running 100 files of 1MB in size.
-- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/csa2.bu.edu-linux.png "csa2.bu.edu 100x1MB")
+- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/sample-output/master/csa2.bu.edu-linux.png "csa2.bu.edu 100x1MB")
 
 Below is a screenshot of csa3.bu.edu, Boston University's Computer Science's secondary Linux computer, running 100 files of 1MB in size, and then 1000 files of 1MB.
-- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/csa3.bu.edu-linux.png "csa3.bu.edu 100x1MB")
-- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/csa3.bu.edu-linux-1000.png "csa3.bu.edu 1000x1MB")
+- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/sample-output/csa3.bu.edu-linux.png "csa3.bu.edu 100x1MB")
+- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/sample-output/csa3.bu.edu-linux-1000.png "csa3.bu.edu 1000x1MB")
 
 Other screenshots below include running on Dell Precision T1600 workstations:
-- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/animal-linux.png "animal-linux 100x1MB")
-- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/beaker-linux.png "beaker-linux 100x1MB")
+- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/sample-output/animal-linux.png "animal-linux 100x1MB")
+- ![alt text] (https://github.com/Unknowncmbk/Benchmark/blob/master/sample-output/beaker-linux.png "beaker-linux 100x1MB")
 
 ## Improvements
 The following improvements can be made on this program:
